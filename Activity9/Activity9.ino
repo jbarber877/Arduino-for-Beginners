@@ -1,0 +1,64 @@
+/*
+Jared Barber  Activity 9 LED Controls
+------------------------
+Practice using different components to control LEDs
+
+LED 1 - Use serial input to toggle LED on/off for a variable amount of time
+LED 2 - Set brightness of LED using input from potentiometer
+LED 3 - Toggle LED on/off using a button 
+*/
+#define LED1_PIN 12
+#define LED2_PIN 11
+#define LED3_PIN 10
+#define BUTTON_PIN 2
+#define POT A2
+
+int blinkDelay = 500;
+int LEDState = LOW;
+int lastBlink = millis();
+
+void setup() {
+  Serial.begin(9600);
+  Serial.setTimeout(10);
+
+  pinMode(LED1_PIN, OUTPUT);
+  pinMode(LED2_PIN, OUTPUT);
+  pinMode(LED3_PIN, OUTPUT);
+  pinMode(BUTTON_PIN, INPUT);
+
+
+}
+
+void loop() {
+  if (Serial.available() > 0) {
+    int data = Serial.parseInt();
+    if ((data >= 100) && (data <= 4000)) {
+      blinkDelay = data;
+      Serial.println(blinkDelay);
+    }
+  }
+
+  if(millis()-lastBlink > blinkDelay){
+    if (LEDState == LOW) {
+      LEDState = HIGH;
+    }
+    else {
+      LEDState = LOW;
+  }
+  lastBlink += blinkDelay;
+  }
+
+  digitalWrite(LED1_PIN, LEDState);
+
+  // set LED2 from potentiometer
+  analogWrite(LED2_PIN, analogRead(A2)/4);
+
+  // power on LED3 when button is pressed
+  if (digitalRead(BUTTON_PIN) == HIGH){
+    digitalWrite(LED3_PIN, HIGH);
+  }
+  else {
+    digitalWrite(LED3_PIN, LOW);
+  }
+  
+}
