@@ -73,6 +73,8 @@ This should be done using an array, NOT a running sum.
 
 Project Interactive Obstacle Detection
 
+https://www.tinkercad.com/things/350uarEVLZG-interactive-obstacle-detection
+
 IR Reciever template code
 LCD template code
 Ultrasonic Sensor template code
